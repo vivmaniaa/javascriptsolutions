@@ -1,0 +1,6 @@
+vivek	demex	70	2
+vivek	chips	20	5
+vivek	bottels	300	6
+jagdish	rooafza	70	1
+jagdish	mango	150	1
+jagdish	nutella	250	2
