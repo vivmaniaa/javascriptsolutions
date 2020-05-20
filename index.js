@@ -15,4 +15,5 @@ return newAr;
 
 
 console.log(output);
+console.log('working fine!');
 
