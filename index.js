@@ -2,4 +2,5 @@
 // login with google 
 // connect you vivmaniaa github 
 // repo: javascriptsolutions
-require('./reduce.js');
+
+var launch = require('./scheduler.js');
