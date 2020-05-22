@@ -13,27 +13,29 @@ function getShiftHoursInMinuts(startHour,endHour){
   return getTimeStringInMinutes(endHour)-getTimeStringInMinutes(startHour);
 }
 
-let targetDate = new Date(2020, 4, 24, 16, 30);
-/* console.log(targetDate.toString()); */
+
 let shiftTimings = {startHour: '09:00', endHour: '17:00'};
 
 let addMinutes = 990;
 let selectedDate = new Date(2020, 4, 22, 16,30);
 
-let workWeekDays = [ 2, 3, 4, 5 ];
+let workWeekDays = [ 1, 2, 3, 4, 5 ];
 let shiftHoursInMinutes = getShiftHoursInMinuts(shiftTimings.startHour, shiftTimings.endHour);
 let offDays = 0;
 let endHourMinutes = getTimeStringInMinutes(shiftTimings.endHour);
 let currentDateMinutes = timeInMinutes(selectedDate);// currentDateMinutes must not be greater than the  endHourMinutes;
 let remainingMinuts = endHourMinutes - currentDateMinutes;
-let daysExtention = addMinutes/shiftHoursInMinutes;
+let minutesExtention = (addMinutes/shiftHoursInMinutes%1)*shiftHoursInMinutes;
+let daysExtention = Math.floor(addMinutes/shiftHoursInMinutes);
 
-function getOffDaysExtention(selectedDate, daysExtention, offDaysExtention = 0){
-  let loopDate = new Date(selectedDate);
-  for(let i = 0; i < Math.floor(daysExtention); i++){
+
+function getOffDaysExtention(processingDate, daysExtention){
+	let offDaysExtention = 0;
+  let loopDate = new Date(processingDate);
+  for(let i = 0; i < daysExtention; i++){
     loopDate.setMinutes(loopDate.getMinutes() + 1440);
     if(!workWeekDays.includes(loopDate.getDay())){
-      offDaysExtention = offDaysExtention+1;
+      offDaysExtention += 1;
     }
   }
   if(offDaysExtention){
@@ -43,5 +45,28 @@ function getOffDaysExtention(selectedDate, daysExtention, offDaysExtention = 0){
 }
 
 let totalExtraDays = getOffDaysExtention(selectedDate, daysExtention);
+function getEndDate(selectedDate){
+	let addMinutes = 990;
+  let currentDateMinutes = timeInMinutes(selectedDate);// currentDateMinutes must not be greater than the  endHourMinutes;
+  let endHourMinutes = getTimeStringInMinutes(shiftTimings.endHour);
+  let remainingMinutes = endHourMinutes - currentDateMinutes;
+  addMinutes = addMinutes - remainingMinutes;
+  let processingDate = new Date(selectedDate);
+  processingDate.setMinutes(processingDate.getMinutes() + remainingMinutes);
+	let shiftHoursInMinutes = getShiftHoursInMinuts(shiftTimings.startHour, shiftTimings.endHour);
+  let daysExtention = Math.max(0, Math.floor(addMinutes/shiftHoursInMinutes));
+  let remainder = addMinutes/shiftHoursInMinutes%1;
+  daysExtention += remainder > 0 && daysExtention == 0 ? 1 : 0;   
+  console.log(daysExtention)
+  let minutesExtention = remainder*shiftHoursInMinutes;
+  let totalDaysExtention = daysExtention + getOffDaysExtention(processingDate, daysExtention);    
+  let leftMarginTime = getTimeStringInMinutes(shiftTimings.startHour);
+  let rightMarginTime = 1440 - getTimeStringInMinutes(shiftTimings.endHour);
+  let extentionMinutes = remainder > 0 ? leftMarginTime + rightMarginTime + minutesExtention : minutesExtention;
+  let endDate = new Date(processingDate);
+  let newEndDate =  new Date(endDate.setMinutes(endDate.getMinutes() + (1440 * totalDaysExtention) + extentionMinutes));
+  return newEndDate;
+}
 
-console.log(totalExtraDays);
+console.log(getEndDate(selectedDate).toString());
+
