@@ -15,18 +15,8 @@ function getShiftHoursInMinuts(startHour,endHour){
 
 
 let shiftTimings = {startHour: '09:00', endHour: '17:00'};
-
-let addMinutes = 990;
 let selectedDate = new Date(2020, 4, 22, 16,30);
-
 let workWeekDays = [ 1, 2, 3, 4, 5 ];
-let shiftHoursInMinutes = getShiftHoursInMinuts(shiftTimings.startHour, shiftTimings.endHour);
-let offDays = 0;
-let endHourMinutes = getTimeStringInMinutes(shiftTimings.endHour);
-let currentDateMinutes = timeInMinutes(selectedDate);// currentDateMinutes must not be greater than the  endHourMinutes;
-let remainingMinuts = endHourMinutes - currentDateMinutes;
-let minutesExtention = (addMinutes/shiftHoursInMinutes%1)*shiftHoursInMinutes;
-let daysExtention = Math.floor(addMinutes/shiftHoursInMinutes);
 
 
 function getOffDaysExtention(processingDate, daysExtention){
@@ -44,9 +34,8 @@ function getOffDaysExtention(processingDate, daysExtention){
   return offDaysExtention;
 }
 
-let totalExtraDays = getOffDaysExtention(selectedDate, daysExtention);
 function getEndDate(selectedDate){
-	let addMinutes = 990;
+	let addMinutes = 989;
   let currentDateMinutes = timeInMinutes(selectedDate);// currentDateMinutes must not be greater than the  endHourMinutes;
   let endHourMinutes = getTimeStringInMinutes(shiftTimings.endHour);
   let remainingMinutes = endHourMinutes - currentDateMinutes;
@@ -57,7 +46,6 @@ function getEndDate(selectedDate){
   let daysExtention = Math.max(0, Math.floor(addMinutes/shiftHoursInMinutes));
   let remainder = addMinutes/shiftHoursInMinutes%1;
   daysExtention += remainder > 0 && daysExtention == 0 ? 1 : 0;   
-  console.log(daysExtention)
   let minutesExtention = remainder*shiftHoursInMinutes;
   let totalDaysExtention = daysExtention + getOffDaysExtention(processingDate, daysExtention);    
   let leftMarginTime = getTimeStringInMinutes(shiftTimings.startHour);
