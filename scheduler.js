@@ -35,7 +35,7 @@ function getOffDaysExtention(processingDate, daysExtention){
 }
 
 function getEndDate(selectedDate){
-	let addMinutes = 31;
+	let addMinutes = 530;
   let currentDateMinutes = timeInMinutes(selectedDate);// currentDateMinutes must not be greater than the  endHourMinutes;
   let endHourMinutes = getTimeStringInMinutes(shiftTimings.endHour);
   let remainingMinutes = endHourMinutes - currentDateMinutes;
