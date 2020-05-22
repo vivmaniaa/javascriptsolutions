@@ -35,7 +35,7 @@ function getOffDaysExtention(processingDate, daysExtention){
 }
 
 function getEndDate(selectedDate){
-	let addMinutes = 989;
+	let addMinutes = 31;
   let currentDateMinutes = timeInMinutes(selectedDate);// currentDateMinutes must not be greater than the  endHourMinutes;
   let endHourMinutes = getTimeStringInMinutes(shiftTimings.endHour);
   let remainingMinutes = endHourMinutes - currentDateMinutes;
@@ -45,9 +45,9 @@ function getEndDate(selectedDate){
 	let shiftHoursInMinutes = getShiftHoursInMinuts(shiftTimings.startHour, shiftTimings.endHour);
   let daysExtention = Math.max(0, Math.floor(addMinutes/shiftHoursInMinutes));
   let remainder = addMinutes/shiftHoursInMinutes%1;
-  daysExtention += remainder > 0 && daysExtention == 0 ? 1 : 0;   
+  let tempDaysExtention = remainder > 0 && daysExtention == 0 ? 1 : daysExtention;   
   let minutesExtention = remainder*shiftHoursInMinutes;
-  let totalDaysExtention = daysExtention + getOffDaysExtention(processingDate, daysExtention);    
+  let totalDaysExtention = daysExtention + getOffDaysExtention(processingDate, tempDaysExtention);    
   let leftMarginTime = getTimeStringInMinutes(shiftTimings.startHour);
   let rightMarginTime = 1440 - getTimeStringInMinutes(shiftTimings.endHour);
   let extentionMinutes = remainder > 0 ? leftMarginTime + rightMarginTime + minutesExtention : minutesExtention;
