@@ -53,7 +53,11 @@ function getEndDate(selectedDate){
   let extentionMinutes = remainder > 0 ? leftMarginTime + rightMarginTime + minutesExtention : minutesExtention;
   let endDate = new Date(processingDate);
   let newEndDate =  new Date(endDate.setMinutes(endDate.getMinutes() + (1440 * totalDaysExtention) + extentionMinutes));
-  return newEndDate;
+  //below while loop is to further check if the final date don't lie on the off days.
+  while(!workWeekDays.includes(newEndDate.getDay())){
+    newEndDate.setMinutes(newEndDate.getMinutes() + 1440);
+  }
+    return newEndDate;
 }
 
 console.log(getEndDate(selectedDate).toString());
