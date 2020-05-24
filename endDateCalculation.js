@@ -18,7 +18,6 @@ if(totalExtraMinutes>0){
 }
 selectedDate.setMinutes(selectedDate.getMinutes() + totalExtraMinutes);
 for(let i = 0; i<dayExtention; i++){
-  console.log(selectedDate.getDay());
   while(!workWeek.includes(selectedDate.getDay())){
     selectedDate.setMinutes(selectedDate.getMinutes() + 1440);
   }
