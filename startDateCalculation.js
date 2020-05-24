@@ -9,11 +9,21 @@ function getTimeStringInMinutes(timeString){
   let minutes = Number(timeString.split(':')[1]);
   return hours*60+minutes;
 }
-
+function checkOffDay(date){
+  let y = date.getFullYear();
+  let d = date.getDate();
+  let m = date.getMonth();
+  let onlyDate = new Date(y, m, d);
+  return !workWeek.includes(date.getDay()) || holidays.includes(onlyDate.getTime());
+  
+}
+let holidays = [
+  new Date(2020,4,22).getTime(),
+]
 shitfTimings = {startHour: '09:00', endHour: '17:00'};
 let selectedDate = new Date(2020,4,25,9,20);
 let currentMinutes = timeInMinutes(selectedDate);
-let addMinutes = 19;
+let addMinutes = 21;
 let startHourInMinutes = getTimeStringInMinutes(shitfTimings.startHour);
 let endHourInMinutes = getTimeStringInMinutes(shitfTimings.endHour);
 let shiftHours = endHourInMinutes - startHourInMinutes;
@@ -28,12 +38,12 @@ if(totalExtraMinutes>0){
 }
 selectedDate.setMinutes(selectedDate.getMinutes() - totalExtraMinutes);
 for(let i = 0; i<dayShort; i++){
-  while(!workWeek.includes(selectedDate.getDay())){
+  while(checkOffDay(selectedDate)){
     selectedDate.setMinutes(selectedDate.getMinutes() - 1440);
   }
   selectedDate.setMinutes(selectedDate.getMinutes() - 1440);
 }
-while(!workWeek.includes(selectedDate.getDay())){
+while(checkOffDay(selectedDate)){
   selectedDate.setMinutes(selectedDate.getMinutes() - 1440);
 }
 console.log(selectedDate.toString());
