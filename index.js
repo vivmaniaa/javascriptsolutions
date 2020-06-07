@@ -3,4 +3,4 @@
 // connect you vivmaniaa github 
 // repo: javascriptsolutions
 
-var launch = require('./firstDuplicateNumber.js');
+var launch = require('./sortedSquaredArray.js');
