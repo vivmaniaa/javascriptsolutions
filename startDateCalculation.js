@@ -10,6 +10,7 @@ function getTimeStringInMinutes(timeString){
   return hours*60+minutes;
 }
 function checkOffDay(date){
+  let holidays = [];// set here the holidays array
   let y = date.getFullYear();
   let d = date.getDate();
   let m = date.getMonth();
@@ -20,7 +21,7 @@ function checkOffDay(date){
 let holidays = [
   new Date(2020,4,22).getTime(),
 ]
-shitfTimings = {startHour: '09:00', endHour: '17:00'};
+let shitfTimings = {startHour: '09:00', endHour: '17:00'};
 let selectedDate = new Date(2020,4,25,9,20);
 let currentMinutes = timeInMinutes(selectedDate);
 let addMinutes = 21;
